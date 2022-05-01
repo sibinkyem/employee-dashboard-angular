@@ -1,0 +1,17 @@
+<p-multiSelect
+  [(ngModel)]="selectedOptions"
+  [maxSelectedLabels]="maxSelectedLabels"
+  [optionLabel]="optionLabel"
+  [options]="options"
+  [optionValue]="optionValue"
+  [placeholder]="placeholder"
+  selectedItemsLabel="{0} {{ selectedItemsLabel }} selected"
+  [style]="{
+    background: background,
+    border: border,
+    borderRadius: borderRadius,
+    height: height,
+    minWidth: minWidth
+  }"
+  (onChange)="handleChange($event)"
+></p-multiSelect>

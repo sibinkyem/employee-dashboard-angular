@@ -1,0 +1,170 @@
+<p-card data-testid="table">
+  <p-card-content>
+    <p-table
+      #dt
+      [autoLayout]="true"
+      [columns]="selectedColumns"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [dataKey]="dataKey"
+      [editMode]="editMode"
+      [groupRowsBy]="groupRowsBy"
+      [lazy]="isLazyLoading"
+      [loading]="isLoading"
+      [(first)]="first"
+      [ngClass]="
+        columns.length !== selectedColumns.length ? 'display-none' : ''
+      "
+      [paginator]="showPaginator"
+      rowGroupMode="subheader"
+      [rowHover]="true"
+      [rows]="rowsPerPage"
+      [rowsPerPageOptions]="rowsPerPageOptions"
+      [selectionMode]="selectionMode"
+      [showCurrentPageReport]="true"
+      [sortField]="sortField"
+      [sortMode]="sortMode"
+      [sortOrder]="sortOrder"
+      [totalRecords]="selectedData.length"
+      [value]="selectedData"
+      (onFilter)="handleFilter($event)"
+      (onLazyLoad)="handleLazyLoad($event)"
+      (onRowSelect)="handleRowSelect($event)"
+      (onSort)="handleSort($event)"
+      (onPage)="handlePagination($event)"
+    >
+      <!-- Toolbar -->
+      <ng-template *ngIf="showToolBar" pTemplate="caption">
+        <emp-table-header
+          [columns]="columns"
+          [disableExportButtons]="disableToolBarExportButtons"
+          [showCreateIcon]="showToolbarCreateIcon"
+          [showColumnSelectionDropDown]="showToolbarColumnSelectionDropDown"
+          (columnSelectionChange)="handleColumnSelectionChange($event)"
+          (create)="handleCreate()"
+          (export)="handleExport($event, dt)"
+          (resetFilter)="resetFilter()"
+        ></emp-table-header>
+      </ng-template>
+      <!-- Header -->
+      <ng-template pTemplate="header" let-columns="selectedColumns">
+        <!-- Header of Header -->
+        <ng-container *ngIf="columnHeaderTemplate">
+          <ng-container *ngTemplateOutlet="columnHeaderTemplate"></ng-container>
+        </ng-container>
+        <!-- Columns -->
+        <tr *ngIf="selectedColumns">
+          <ng-container *ngFor="let col of selectedColumns">
+            <th
+              *ngIf="col.isSortable"
+              id="{{ col.field }}-sort-col"
+              [pSortableColumn]="col.field"
+            >
+              {{ col.header }} <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+            <th *ngIf="!col.isSortable" id="{{ col.field }}-default-col">
+              {{ col.header }}
+            </th>
+          </ng-container>
+          <th *ngIf="showActionColumn" id="action-col">Action</th>
+        </tr>
+        <!-- Filters -->
+        <tr *ngIf="hasFilters && showFilter">
+          <ng-container
+            *ngFor="let col of selectedColumns; let i = index"
+            [ngSwitch]="col.filter?.filterType"
+          >
+            <th id="{{ col.field }}-filter-col">
+              <p-columnFilter
+                *ngIf="col.filter"
+                [field]="col.field"
+                [type]="col.filter.filterType"
+              >
+                <ng-template
+                  pTemplate="filter"
+                  let-filter="filterCallback"
+                  let-value
+                >
+                  <input
+                    *ngSwitchCase="filterType.Text"
+                    type="text"
+                    pInputText
+                    [(ngModel)]="textFilterValues[i]"
+                    (input)="
+                      dt.filter(textFilterValues[i], col.field, 'contains')
+                    "
+                  />
+                  <p-checkbox
+                    *ngSwitchCase="filterType.Boolean"
+                    name="{{ col.field }}-checkbox"
+                    [(ngModel)]="booleanFilterValues[i]"
+                    [binary]="true"
+                    (onChange)="
+                      dt.filter(booleanFilterValues[i], col.field, 'equals')
+                    "
+                  ></p-checkbox>
+                  <p-calendar
+                    *ngSwitchCase="filterType.Date"
+                    [(ngModel)]="dateFilterValues[i]"
+                    (onSelect)="
+                      dt.filter(dateFilterValues[i], col.field, 'equals')
+                    "
+                  ></p-calendar>
+                  <p-dropdown
+                    *ngSwitchCase="filterType.Dropdown"
+                    [options]="col.filter?.options ?? []"
+                    [ngModel]="value"
+                    placeholder="&nbsp;"
+                    [style]="{ width: '100%' }"
+                    (onChange)="dt.filter($event.value, col.field, 'equals')"
+                  ></p-dropdown>
+                </ng-template>
+              </p-columnFilter>
+            </th>
+          </ng-container>
+        </tr>
+      </ng-template>
+      <!-- Body -->
+      <ng-template
+        pTemplate="body"
+        let-columns="selectedColumns"
+        let-data
+        let-rowIndex="rowIndex"
+      >
+        <tr
+          [pSelectableRowDisabled]="disableRowSelection"
+          [pSelectableRow]="data"
+        >
+          <ng-container
+            *ngTemplateOutlet="
+              bodyTemplate;
+              context: {
+                $implicit: data,
+                columns: selectedColumns
+              }
+            "
+          ></ng-container>
+        </tr>
+      </ng-template>
+
+      <!-- Paginator -->
+      <ng-template pTemplate="paginatorleft">
+        <ng-container *ngTemplateOutlet="paginatorLeft"></ng-container>
+      </ng-template>
+
+      <!-- Empty Message -->
+      <ng-template pTemplate="emptymessage" let-columns>
+        <ng-container *ngTemplateOutlet="noRecordsFound"></ng-container>
+      </ng-template>
+    </p-table>
+  </p-card-content>
+</p-card>
+
+<ng-template #noRecordsFound>
+  <tr>
+    <td [attr.colspan]="columns.length || '100%'" class="no-records-message">
+      No records found
+    </td>
+  </tr>
+</ng-template>
+ <!-- Pagination -->
+<ng-template #paginatorLeft></ng-template>

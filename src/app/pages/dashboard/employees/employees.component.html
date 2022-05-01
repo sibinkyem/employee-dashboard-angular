@@ -1,0 +1,24 @@
+
+  <p-panel >
+    <ng-template pTemplate="header">
+      <p class="text-left">Employee
+        <span class="p-badge-danger p-badge p-component p-badge-no-gutter ng-star-inserted">{{tableData.length}}</span>
+      </p>
+    </ng-template>
+    <emp-table
+        [columns]="cols"
+        [data]="tableData"
+        [dataKey]="'email'"
+        [bodyTemplate]="body"
+        [showToolbarCreateIcon]="false"
+        [showActionColumn]="false"
+        (selectRow)="onSelectRow($event)"
+        (export)="exportData($event)"
+    ></emp-table>
+    <ng-template #body let-data>
+      <td class="p-button-link p-button">{{ data.name }}</td>
+      <td>{{ data.phone }}</td>
+      <td>{{ data.email }}</td>
+    </ng-template>
+  </p-panel>
+<router-outlet></router-outlet>

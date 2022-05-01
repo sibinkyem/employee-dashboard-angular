@@ -1,0 +1,61 @@
+
+
+<p-card class="bg-blue-100">
+  <p class="text-left text-4xl text-pink-600">{{title}}</p>
+  <p-panel>
+    <ng-template pTemplate="header">
+      <p class="text-left">{{selectedEmployee}}
+        <span class="p-badge-danger p-badge p-component p-badge-no-gutter ng-star-inserted">{{taskData.length}}</span>
+      </p>
+    </ng-template>
+    <emp-table
+        [columns]="cols"
+        [data]="taskData"
+        [dataKey]="'id'"
+        [isLoading]="isLoading"
+        [bodyTemplate]="taskBody"
+        [showToolbarCreateIcon]="true"
+        [showActionColumn]="false"
+        (create)="openModal()"
+        (export)="exportData($event)"
+    ></emp-table>
+    <ng-template #taskBody let-data>
+      <td *ngIf="data.id">{{ data.id }}</td>
+      <td *ngIf="data.title">{{ data.title }}</td>
+      <td *ngIf="data.completed !== undefined">{{ data.completed ? 'Completed' : 'Not completed' }}</td>
+    </ng-template>
+  </p-panel>
+</p-card>
+
+<p-dialog header="Add New Task" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false">
+      <form [formGroup]="addTaskForm" novalidate>
+        <p-divider></p-divider>
+        <br/>
+        <div class="p-field">
+            <span class="p-float-label">
+              <input
+                id="float-input"
+                type="text"
+                pInputText
+                formControlName="taskName"
+                class="form-control"
+                [ngClass]="{
+                  'p-invalid':
+                    taskName?.touched || taskName?.dirty
+                }"
+              />
+              <label for="inputgroup">Task description</label>
+            </span>
+          <div *ngIf="taskName?.touched || taskName?.dirty">
+            <p class="text-xs text-pink-600" *ngIf="taskName?.invalid">
+              Invalid Task description, Minimum 3 characters required (maximum 50)
+            </p>
+          </div>
+        </div>
+      </form>
+        <ng-template pTemplate="footer">
+            <p-button icon="pi pi-check" (click)="addNewTask()" label="Add New" class="p-button-text"></p-button>
+            <p-button icon="pi pi-times" (click)="displayModal=false" label="Cancel"></p-button>
+        </ng-template>
+</p-dialog>

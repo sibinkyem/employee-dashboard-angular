@@ -1,0 +1,79 @@
+<p-card class="text-center">
+  <form [formGroup]="loginForm" novalidate>
+    <div
+      class="flex flex-wrap align-items-center justify-content-center card-container"
+    >
+      <div class="border-round w-25rem p-3 m-3">
+        <p-messages
+          [(value)]="alertMessage"
+          [enableService]="false"
+        ></p-messages>
+        <p-divider *ngIf="alertMessage"></p-divider>
+        <br />
+        <div class="p-field p-col-3 p-md-1">
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon">
+              <i class="pi pi-user"></i>
+            </span>
+            <span class="p-float-label">
+              <input
+                id="float-input"
+                type="text"
+                pInputText
+                formControlName="username"
+                class="form-control"
+                [ngClass]="{
+                  'p-invalid':
+                    (submitted && username?.touched) || username?.dirty
+                }"
+              />
+              <label for="inputgroup">Username</label>
+            </span>
+          </div>
+          <div *ngIf="(submitted && username?.touched) || username?.dirty">
+            <p class="text-xs text-pink-600" *ngIf="username?.invalid">
+              Invalid username, Minimum 3 & maximum 10 characters required
+            </p>
+          </div>
+        </div>
+        <br /><br />
+        <div class="p-field p-col-3 p-md-1">
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon">
+              <i class="pi pi-lock"></i>
+            </span>
+            <span class="p-float-label">
+              <input
+                type="password"
+                formControlName="password"
+                class="form-control"
+                pInputText
+                [ngClass]="{
+                  'p-invalid':
+                    (submitted && password?.touched) || password?.dirty
+                }"
+              />
+              <label for="inputgroup">Password</label>
+            </span>
+          </div>
+          <div *ngIf="(submitted && password?.touched) || password?.dirty">
+            <p class="text-xs text-pink-600" *ngIf="password?.invalid">
+              Invalid password, Minimum 3 & maximum 10 characters required
+            </p>
+          </div>
+        </div>
+        <br />
+        <p class="text-right">
+          <button
+            [disabled]="loading"
+            (click)="onSubmit()"
+            pButton
+            type="button"
+            class="p-button-info"
+            label="Login"
+          ></button>
+        </p>
+      </div>
+    </div>
+  </form>
+</p-card>

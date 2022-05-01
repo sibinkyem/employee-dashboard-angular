@@ -1,0 +1,32 @@
+.toolbar-container {
+  .hrb-circled {
+    margin: 10px 8px;
+  }
+
+  .multiselect-container {
+    margin-top: 6px;
+  }
+
+  .toolbar-item {
+    display: flex;
+    padding-left: 5px;
+    float: left;
+  }
+
+  .toolbar-right-item {
+    display: flex;
+    padding-left: 5px;
+    float: right;
+  }
+}
+
+.toolbar-flex-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+:host ::ng-deep {
+  .p-button {
+    margin: 3px !important;
+  }
+}
