@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { LoggedInUserService } from './logged-in-user.service';
 
@@ -6,7 +7,11 @@ describe('LoggedInUserService', () => {
   let service: LoggedInUserService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule
+      ],
+    });
     service = TestBed.inject(LoggedInUserService);
   });
 
