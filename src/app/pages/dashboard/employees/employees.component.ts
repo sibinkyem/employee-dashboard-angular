@@ -8,13 +8,16 @@ import { Column } from 'src/app/shared/components/table/models';
 @Component({
   selector: 'emp-employees',
   templateUrl: './employees.component.html',
-  styleUrls: ['./employees.component.scss']
+  styleUrls: ['./employees.component.scss'],
 })
 export class EmployeesComponent implements OnInit {
   cols: Column[];
   tableData: HttpUserResponse[];
 
-  constructor(private employeeService: EmployeeService, private router: Router) {
+  constructor(
+    private employeeService: EmployeeService,
+    private router: Router
+  ) {
     this.cols = [
       {
         field: 'name',
@@ -45,8 +48,8 @@ export class EmployeesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.employeeService.getEmployees().subscribe(data => {
-      this.tableData = data
+    this.employeeService.getEmployees().subscribe((data) => {
+      this.tableData = data;
     });
   }
 
@@ -60,9 +63,6 @@ export class EmployeesComponent implements OnInit {
 
   onSelectRow(rowData: HttpUserResponse): void {
     this.employeeService.selectedEmployee = rowData;
-    console.log(this.employeeService.selectedEmployee);
     this.router.navigate(['/employee']);
-    //this.router.navigateByUrl('/employee')
   }
-
 }

@@ -1,38 +1,36 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { LoggedInUserService } from '../services';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(public loginService: LoggedInUserService, public router: Router) {}
+  constructor(
+    public loginService: LoggedInUserService,
+    public router: Router
+  ) {}
 
-  /*canActivate(route: ActivatedRouteSnapshot): boolean {
-    const allowedRoles = route.data['allowedRoles'];
-    if (this.userService.loggedInUser.roles) {
-      return this.userService.loggedInUser.roles.some((role) =>
-        allowedRoles.includes(role)
-      );
-    }
-    return false;
-  }*/
-
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
     const user = this.loginService.loggedInUserDetail;
-
-    if (Object.keys(user).length !== 0) {
-        // authorised so return true
-        console.log('heello', user)
+    if (!user) {
+      this.router.navigate(['/login']);
+      return false;
+    } else {
+      const objLength = Object.keys(user).length;
+      if (objLength !== 0) {
         return true;
+      }
+      this.router.navigate(['/login']);
+      return false;
     }
-
-    // not logged in so redirect to login page with the return url
-    //this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
-    this.router.navigate(['/login']);
-    console.log('heello222', state.url)
-    return false;
-}
-
+  }
 }

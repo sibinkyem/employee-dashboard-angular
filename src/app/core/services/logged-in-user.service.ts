@@ -1,47 +1,56 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoggedInUser, Login } from '../interfaces';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoggedInUserService {
   private loggedInUserState: BehaviorSubject<LoggedInUser>;
-  private loggedIn = new BehaviorSubject<boolean>(false);
+  public isLoggedIn: BehaviorSubject<boolean>;
 
   constructor(private router: Router) {
-    this.loggedInUserState = new BehaviorSubject<LoggedInUser>({} as LoggedInUser);
+    const userObj = String(localStorage.getItem('user'));
+    this.loggedInUserState = new BehaviorSubject<LoggedInUser>(
+      JSON.parse(userObj)
+    );
+    if (this.loggedInUserDetail) {
+      this.isLoggedIn = new BehaviorSubject<boolean>(true);
+    } else {
+      this.isLoggedIn = new BehaviorSubject<boolean>(false);
+    }
   }
 
   public get loggedInUserDetail(): LoggedInUser {
     return this.loggedInUserState.value;
   }
 
-  get isLoggedIn() {
-    return this.loggedIn.asObservable(); // {2}
-  }
-
-  login(request: Login): Observable<any>  {
-    if(request.username === environment.username && request.password === environment.password) {
+  login(request: Login): Observable<any> {
+    if (
+      request.username === environment.username &&
+      request.password === environment.password
+    ) {
       const user = {
         id: 101,
         name: 'Sibin',
-        email: 'sibin@fingent.com'
+        email: 'sibin@fingent.com',
+        loggedIn: true,
       };
+      localStorage.setItem('user', JSON.stringify(user));
       this.loggedInUserState.next(user);
-      this.loggedIn.next(true);
+      this.isLoggedIn.next(true);
       return this.loggedInUserState;
     } else {
-      return throwError(() => new Error('Invalid login'))
+      return throwError(() => new Error('Invalid login'));
     }
-
   }
 
   logout(): void {
     this.loggedInUserState.next({} as LoggedInUser);
-      this.router.navigate(['/login']);
+    this.isLoggedIn.next(false);
+    localStorage.removeItem('user');
+    this.router.navigate(['/login']);
   }
 }

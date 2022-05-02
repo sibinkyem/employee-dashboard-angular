@@ -1,0 +1,20 @@
+<!-- <p-dialog header="Add New Task" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="footer">
+      <p-button icon="pi pi-check" (click)="displayModal=false" label="Add New" class="p-button-text"></p-button>
+      <p-button icon="pi pi-times" (click)="displayModal=false" label="Cancel"></p-button>
+  </ng-template>
+  </p-dialog> -->
+  <div
+      class="flex flex-wrap align-items-center justify-content-center card-container"
+    >
+  <p-card class="text-center">
+    <ng-template pTemplate="header">
+      <p class="p-4 text-left text-4xl text-pink-600">Are you sure you want to logout?</p>
+    </ng-template>
+    <button pButton pRipple type="button" (click)="logout()" label="Yes" class="m-3 p-button-warning"></button>
+    <button pButton pRipple type="button" (click)="cancel()" label="No" class="m-3 p-button-info"></button>
+  </p-card>
+  </div>
+
+

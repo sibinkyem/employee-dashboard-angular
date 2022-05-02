@@ -10,8 +10,6 @@ export enum AppRoutes {
   PageNotFound = 'page-not-found'
 }
 
-
-
 export const MENU_ITEMS: MenuItem[] = [
   {
     label: 'Dashboard',
@@ -21,7 +19,6 @@ export const MENU_ITEMS: MenuItem[] = [
   {
     label:'Logout',
     icon:'pi pi-fw pi-power-off',
-    url: '/login',
-    target: '_self'
+    routerLink: [`/${AppRoutes.LogOut}/`],
   }
 ];

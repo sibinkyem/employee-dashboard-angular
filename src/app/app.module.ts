@@ -17,6 +17,12 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { LogoutComponent } from './pages/logout/logout.component';
+import { ButtonModule } from 'primeng/button';
+import { MessagesModule } from 'primeng/messages';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
+import { RippleModule } from 'primeng/ripple';
 
 
 @NgModule({
@@ -25,6 +31,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
     DashboardComponent,
     EmployeesComponent,
     PageNotFoundComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +45,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
     InputTextModule,
     TableModule,
     MultiSelectModule,
+    ButtonModule,
+    RippleModule
   ],
   providers: [
     {

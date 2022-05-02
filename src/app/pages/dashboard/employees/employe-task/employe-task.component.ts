@@ -1,5 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { PrimeNGConfig } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Subscription } from 'rxjs';
@@ -31,7 +36,7 @@ export class EmployeTaskComponent implements OnInit, OnDestroy {
   constructor(
     private employeeService: EmployeeService,
     private primengConfig: PrimeNGConfig,
-    private formBuilder: FormBuilder,
+    private formBuilder: FormBuilder
   ) {
     this.cols = [
       {
@@ -133,13 +138,10 @@ export class EmployeTaskComponent implements OnInit, OnDestroy {
       userId: this.selectedUserId,
       id: this.serialIdMaximum,
       title: this.taskName?.value,
-      completed: false
+      completed: false,
     };
-    console.log('add data', addObj)
     this.taskData = [...this.taskData, addObj];
     this.taskData.sort((a, b) => (a.id > b.id ? -1 : 1));
     this.displayModal = false;
   }
-
-
 }

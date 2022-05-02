@@ -5,8 +5,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { first, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { first } from 'rxjs';
 import { Login } from 'src/app/core/interfaces';
 import { LoggedInUserService } from 'src/app/core/services';
 import { Message, MessageService } from 'primeng/api';
@@ -86,7 +86,6 @@ export class LoginFormComponent implements OnInit {
           this.router.navigateByUrl('/dashboard');
         },
         error: (error) => {
-          console.log('error', error.Error);
           this.addMessages('error', error.Error, 'invalid login');
           this.loading = false;
         },
@@ -94,7 +93,11 @@ export class LoginFormComponent implements OnInit {
   }
 
   addMessages(severity: string, summary: string, detail: string): void {
-    this.alertMessage.push({ severity: severity, summary: summary, detail: detail} );
+    this.alertMessage.push({
+      severity: severity,
+      summary: summary,
+      detail: detail,
+    });
   }
 
   clearMessages(): void {
