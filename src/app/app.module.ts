@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EmployeesComponent } from './pages/dashboard/employees/employees.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ErrorHandlerService, HttpInterceptorsService } from './core/services';
+import { HttpInterceptorsService } from './core/services';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { PanelModule } from 'primeng/panel';
@@ -19,11 +19,7 @@ import { TableModule } from 'primeng/table';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { LogoutComponent } from './pages/logout/logout.component';
 import { ButtonModule } from 'primeng/button';
-import { MessagesModule } from 'primeng/messages';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { DialogModule } from 'primeng/dialog';
 import { RippleModule } from 'primeng/ripple';
-
 
 @NgModule({
   declarations: [
@@ -46,17 +42,16 @@ import { RippleModule } from 'primeng/ripple';
     TableModule,
     MultiSelectModule,
     ButtonModule,
-    RippleModule
+    RippleModule,
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpInterceptorsService,
-      multi: true
+      multi: true,
     },
-    { provide: ErrorHandler, useClass: ErrorHandlerService },
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppModule { }
+export class AppModule {}

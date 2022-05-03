@@ -11,12 +11,14 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {RippleModule} from 'primeng/ripple';
 import { DividerModule } from "primeng/divider";
+import { AutofocusDirective } from 'src/app/core';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    AutofocusDirective
   ],
   imports: [
     CommonModule,

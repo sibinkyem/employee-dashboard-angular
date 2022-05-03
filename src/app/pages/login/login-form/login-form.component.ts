@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -34,8 +35,8 @@ export class LoginFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
-    this.loginForm = this.formBuilder.group({
-      username: [
+    this.loginForm = new FormGroup({
+      username: new FormControl(
         '',
         [
           Validators.required,
@@ -43,8 +44,8 @@ export class LoginFormComponent implements OnInit {
           Validators.minLength(3),
           Validators.maxLength(10),
         ],
-      ],
-      password: [
+      ),
+      password: new FormControl(
         '',
         [
           Validators.required,
@@ -52,7 +53,7 @@ export class LoginFormComponent implements OnInit {
           Validators.minLength(3),
           Validators.maxLength(10),
         ],
-      ],
+      ),
     });
   }
 

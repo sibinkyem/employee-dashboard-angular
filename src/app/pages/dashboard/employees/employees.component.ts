@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Table } from 'primeng/table';
+import { Subscription } from 'rxjs';
 import { FileType, FilterType, HttpUserResponse } from 'src/app/core';
 import { EmployeeService } from 'src/app/core/services';
 import { Column } from 'src/app/shared/components/table/models';
@@ -10,9 +11,10 @@ import { Column } from 'src/app/shared/components/table/models';
   templateUrl: './employees.component.html',
   styleUrls: ['./employees.component.scss'],
 })
-export class EmployeesComponent implements OnInit {
+export class EmployeesComponent implements OnInit, OnDestroy {
   cols: Column[];
   tableData: HttpUserResponse[];
+  subscription!: Subscription;
 
   constructor(
     private employeeService: EmployeeService,
@@ -48,7 +50,7 @@ export class EmployeesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.employeeService.getEmployees().subscribe((data) => {
+    this.subscription = this.employeeService.getEmployees().subscribe((data) => {
       this.tableData = data;
     });
   }
@@ -64,5 +66,9 @@ export class EmployeesComponent implements OnInit {
   onSelectRow(rowData: HttpUserResponse): void {
     this.employeeService.selectedEmployee = rowData;
     this.router.navigate(['/employee']);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

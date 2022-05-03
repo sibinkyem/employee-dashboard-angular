@@ -18,4 +18,9 @@ describe('LoggedInUserService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('object should be created', () => {
+    expect(service.loggedInUserDetail).toBeDefined();
+    expect(service.isLoggedIn).toBeDefined();
+  });
 });

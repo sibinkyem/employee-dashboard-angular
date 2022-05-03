@@ -32,14 +32,14 @@
       <form [formGroup]="addTaskForm" novalidate>
         <p-divider></p-divider>
         <br/>
-        <div class="p-field">
+        <div class="p-fluid">
             <span class="p-float-label">
               <input
                 id="float-input"
                 type="text"
                 pInputText
                 formControlName="taskName"
-                class="form-control"
+                class="p-inputtext-lg"
                 [ngClass]="{
                   'p-invalid':
                     taskName?.touched || taskName?.dirty

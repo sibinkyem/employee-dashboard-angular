@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { EmployeeService } from 'src/app/core/services';
 
 import { EmployeTaskComponent } from './employe-task.component';
 
@@ -12,8 +13,7 @@ describe('EmployeTaskComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ EmployeTaskComponent ],
-      imports: [ReactiveFormsModule, HttpClientTestingModule],
-      providers: [HttpClient],
+      imports: [ReactiveFormsModule, HttpClientTestingModule]
     })
     .compileComponents();
   });
@@ -27,4 +27,5 @@ describe('EmployeTaskComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });
